@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin_oauth2',
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -134,7 +136,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticcollection')
+# STATIC_ROOT = 'static/'
+
 STATICFILES_DIRS = [
    BASE_DIR/ "static",
 ]
@@ -155,5 +158,21 @@ LOGIN_REDIRECT_URL = '/'
 MEDIA_ROOT = BASE_DIR/ 'media'
 
 MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Format', 'FontSize', 'TextColor'],
+            ['NumberedList', 'BulletedList'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Image', ],
+            ['Undo', 'Redo', 'Source']
+        ]
+    }
+}
+
 
 from .local_settings import *

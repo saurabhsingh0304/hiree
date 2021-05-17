@@ -1,6 +1,7 @@
 from django.db import models
 from process.models import ModelBase
 from . import choices as c
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 
@@ -8,8 +9,10 @@ from . import choices as c
 class JobPosting(ModelBase):
     job_title = models.CharField(max_length=50, null=True, blank=True)
     job_department = models.CharField(max_length=50, null=True, blank=True)
-    job_description = models.TextField(null=True, blank=True)
-    job_requirements = models.TextField(null=True, blank=True)
+    # job_description = models.TextField(null=True, blank=True)
+    # job_requirements = models.TextField(null=True, blank=True)
+    job_description = RichTextUploadingField(null=True, blank=True)
+    job_requirements = RichTextUploadingField(null=True, blank=True)
     job_country = models.CharField(max_length=50,null=True, blank=True)
     job_state = models.CharField(max_length=50, null=True, blank=True)
     job_zip_code = models.CharField(max_length=10,null=True, blank=True) 
