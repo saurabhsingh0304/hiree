@@ -2,34 +2,40 @@ from django.shortcuts import render, redirect
 from .models import JobPosting
 from .choices import Category_choices, Required_education_choices, Employement_type_choice, Required_experience_choices
 from .forms import JobPostingForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required(login_url="login")
 def job_list_view(request):
     jobs = JobPosting.objects.filter(user=request.user, active=True)
     template_name = 'jobs/job_list.html'
-    context = {'jobs':jobs}
+    context = {'jobs': jobs}
     return render(request, template_name, context)
 
-def job_add_view(request, pk=None):
+
+@login_required(login_url="login")
+def job_add_view(request):
+    pk = None
     if request.method == 'POST':
-        title = request.POST['title']
-        department = request.POST['department']
+        title = request.POST.get('title', None)
+        department = request.POST.get('department', None)
         # description = request.POST['description']
         # requirements = request.POST['requirements']
-        country = request.POST['country']
-        state = request.POST['state']
-        zip_code = request.POST['zip_code']
-        is_remote = request.POST['is_remote']
-        employement = request.POST['employement']
-        category = request.POST['category']
-        education = request.POST['education']
-        experience = request.POST['experience']
-        lower_hour = request.POST['lower_hour']
-        upper_hour = request.POST['upper_hour']
-        publish_date = request.POST['publish_date']
-        close_date = request.POST['close_date']
+        country = request.POST.get('country', None)
+        state = request.POST.get('state', None)
+        zip_code = request.POST.get('zip_code', None)
+        is_remote = request.POST.get('is_remote', None)
+        employement = request.POST.get('employement')
+        print('employment =', employement)
+        category = request.POST.get('category', None)
+        education = request.POST.get('education', None)
+        experience = request.POST.get('experience', None)
+        lower_hour = request.POST.get('lower_hour', None)
+        upper_hour = request.POST.get('upper_hour', None)
+        publish_date = request.POST.get('publish_date', None)
+        close_date = request.POST.get('close_date', None)
         if pk:
             job = JobPosting.objects.get(pk=pk, user=request.user)
             job.update(job_title=title, job_department=department, job_country=country, job_state=state, job_zip_code=zip_code,
@@ -40,10 +46,11 @@ def job_add_view(request, pk=None):
         else:
             job = JobPosting.objects.create(user=request.user, job_title=title, job_department=department,
                                             job_country=country, job_state=state, job_zip_code=zip_code,
-                                            is_remote=is_remote, job_employment_type=int(employement), 
-                                            job_category=int(category), job_required_education=int(education), 
+                                            is_remote=is_remote, job_employment_type=int(
+                                                employement),
+                                            job_category=int(category), job_required_education=int(education),
                                             job_required_experience=int(experience), job_lower_hours_per_week=int(lower_hour),
-                                            job_upper_hours_per_week=int(upper_hour), job_publish_date=publish_date, 
+                                            job_upper_hours_per_week=int(upper_hour), job_publish_date=publish_date,
                                             job_close_date=close_date)
         job.save()
         form = JobPostingForm(request.POST, instance=job)
@@ -54,7 +61,7 @@ def job_add_view(request, pk=None):
     else:
         template_name = 'jobs/job_add.html'
         context = {
-            'form':JobPostingForm(),
+            'form': JobPostingForm(),
             'category_choices': Category_choices,
             'education_choices': Required_education_choices,
             'employement_choice': Employement_type_choice,
@@ -63,11 +70,9 @@ def job_add_view(request, pk=None):
         return render(request, template_name, context)
 
 
-def delete_job_view(request,pk):
+@login_required(login_url="login")
+def delete_job_view(request, pk):
     delete_job = JobPosting.objects.get(pk=pk)
     delete_job.active = False
     delete_job.save()
     return render('/job-list')
-
-
-    

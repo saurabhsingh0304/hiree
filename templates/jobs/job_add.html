@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+    <div>
+        <h3>
+            Job title
+        </h3>
+        <input type="text" name="title">
+    </div>
+    <div>
+        <h3>
+            Department
+        </h3>
+        <input type="text" name="department">
+    </div>
+    <div>
+        <h3>Job description</h3>
+        {{ form.job_description }}
+    </div>
+    <div>
+        <h3>Job requirements</h3>
+        {{ form.job_requirements }}
+    </div>
+    <div>
+        <h3>
+            Country
+        </h3>
+        <input type="text" name="country">
+    </div>
+    <div>
+        <h3>
+            State
+        </h3>
+        <input type="text" name="state">
+    </div>
+    <div>
+        <h3>
+            Zip Code
+        </h3>
+        <input type="text" name="zip_code">
+    </div>
+    <div>
+        <label for="remote">Remote</label>
+        <select name="remote" id="remote">
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        </select>
+  </div><div>
+      <label for="employment">Employment Type: </label>
+      <Select name="employment" id="employment">
+        {% for i in employement_choice %}
+        <option value="{{ i.0 }}" selected>{{ i.1 }}</option>
+        {% endfor %}
+        </Select>
+    </div><div>
+        <label for="category">Category: </label>
+        <Select name="category" id="category">
+            {% for i in category_choices %}
+            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            {% endfor %}
+        </Select>
+    </div><div>
+        <label for="education">Required education: </label>
+        <Select name="education" id="education">
+            {% for i in education_choices %}
+            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            {% endfor %}
+        </Select>
+    </div>
+    <div>
+        <label for="experience">Required experience: </label>
+        <Select name="experience" id="experience">
+            {% for i in experience_choices %}
+            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            {% endfor %}
+        </Select>
+    </div>
+    <div>
+        <h3>Hours per week</h3>
+        <h3>
+            <input type="number" name="lower_hour">
+            to 
+            <input type="number" name="upper_hour">
+            hours
+        </h3>
+    </div>
+    
+    <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

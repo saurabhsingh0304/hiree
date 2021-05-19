@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ request.user }}</h1>
+    {% for job in jobs %}
+    <div>
+        <h3>
+            Job title: {{ job.job_title }}
+        </h3>
+        <h3>
+            Job Department: {{ job.job_department }}
+        </h3>
+        <h3>
+            Last Updated: {{ job.modified_date }}
+        </h3>
+    </div>
+    {% endfor %}
+</body>
+</html>
