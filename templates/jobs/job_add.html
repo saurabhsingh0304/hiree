@@ -1,99 +1,493 @@
-<!DOCTYPE html>
+{% extends "index.html" %}
+{% load static %}
+<!-- <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/d20f8b62a6.js"></script>
+    <style>
+        .navbar-nav>li {
+            float: left;
+            position: relative;
+            /* padding-right: 2px; */
+        }
+
+        .navbar-light .navbar-nav .active a::after {
+            border-bottom: 3px solid #4902fa;
+            bottom: 2px;
+            content: " ";
+            left: 0;
+            position: absolute;
+            right: 0px;
+        }
+
+        .dasboard-pane>li {
+            margin-top: 15px;
+        }
+
+        .dasboard-pane>li>a {
+            margin-left: 18px;
+            color: black;
+            text-decoration: none;
+        }
+        input[type="text"]
+        /* select.form-control  */
+        {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 0;
+        }
+
+        input[type="text"]:focus
+        /* select.form-control:focus  */
+        {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        }
+    </style>
 </head>
+
 <body>
+
+    <div class="container-fluid">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-xl-2" style="background-color:white; margin-top: 15px;">
+                    <div class="row">
+                        <a class="navbar-brand" href="#">
+                            <img src="data:image/png;base64,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"
+                                width="100" height="30" alt="">
+                        </a>
+                        <div style="margin-top: 25px;">
+                            <img src="https://png.pngitem.com/pimgs/s/168-1689599_male-user-filled-icon-user-icon-100-x.png"
+                                class="img-circle"
+                                style="max-width: 25px;max-height: 25px;height: auto; border-radius: 50%; vertical-align: middle; border:0"
+                                alt="user image">
+                            <span style="padding-left: 15px;">{{ request.user }}</span>
+                        </div>
+                        dashboard
+                        <div class="">
+                            <ul class="dasboard-pane"
+                                style="list-style-type: none; margin-top: 20px; margin-left: -37px;">
+                                <li>
+                                    <i class="fa fa-tachometer" aria-hidden="true"></i>
+                                    <a href="#dashboard">Dashboard</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <a href="#candidates">candidates</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                    <a href="#job">Job</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <a href="#mailbox">Mailbox</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-flag-o" aria-hidden="true"></i>
+                                    <a href="#reports">Reports</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr style="width:100%;text-align:left;">
+                    </div>
+                </div>
+
+                <div class="col-xl-10">
+                    <div class="row">
+
+
+                        <div class="col-xl-11" style="margin-top: 22px;">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-3" style="border-radius: 50px; height: 30px; "
+                                    type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn my-2 my-sm-0"
+                                    style="border-radius: 50px; padding-left:50px; padding-right:50px;height: 30px; background-color: #4902fa; color:white; text-align:center;display:flex;"
+                                    type="submit">Search</button>
+                            </form>
+                        </div>
+                        <div class="col-xl-1" style="margin-top: 22px;">
+                            <ul class="navbar-nav ml-auto">
+                                <li>
+                                    <a href="#" class="pull-right" style="color: #4902fa;"><i
+                                            class="fa fa-bell fa-lg "></i>
+                                    </a>
+                                </li>
+                        </div>
+                        <hr style="width:100%;text-align:right;">
+                    </div>
+
+                    <div class="row">
+
+                        <h5 style="padding-left: 50px;">Senior Marketer(Sample)</h5>
+                        <span style="padding-left: 15px;margin-top: 2px;">Remote Job</span>
+                        <h5 style="padding-left: 150px;font-weight: 75;">Qualified &nbsp 8</h5>
+                        &nbsp&nbsp&nbsp
+                        <span style="border-left: 1px solid grey; left: 50%;margin-top: 3px;height: 30px;"></span>
+                        &nbsp&nbsp
+                        <h5 style="padding-left: 1px;font-weight: 75;">Disqualified &nbsp 8</h5>
+                        <a href="#" class="" style="color: #e0e0e0; padding-left: 135px; padding-right: 10px;"><i
+                                class="fa fa-plus fa-lg "></i>
+                        </a>
+                        <img src="https://png.pngitem.com/pimgs/s/168-1689599_male-user-filled-icon-user-icon-100-x.png"
+                            class="img-circle"
+                            style="max-width: 25px;max-height: 25px;height: auto; border-radius: 50%; vertical-align: middle; border:0;"
+                            alt="user image">
+
+                        <div class="dropdown" style="padding-left: 10px; margin-top: -3px;">
+                            <button class="btn btn-secondary dropdown-toggle"
+                                style="height:35px; background-color: #4902fa;" type="button" id="dropdownMenu2"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Following
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">Action</button>
+                                <button class="dropdown-item" type="button">Another action</button>
+                                <button class="dropdown-item" type="button">Something else here</button>
+                            </div>
+                        </div>
+                        <hr style="width:100%;text-align:right;">
+                    </div>
+                    <div style="padding-left:25px;">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <div>
+                                    <label class="control-label">Job title</label>
+                                    <input type="text" class="form-control"  name="title">
+                                </div>
+                                <div>
+                                    <label class="control-label"> Department </label>
+                                    <input type="text" class="form-control" name="department">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Job description</h3>
+                            {{ form.job_description }}
+                        </div>
+                        <div>
+                            <h3>Job requirements</h3>
+                            {{ form.job_requirements }}
+                        </div>
+                        <div>
+                            <h3>
+                                Country
+                            </h3>
+                            <input type="text" name="country">
+                        </div>
+                        <div>
+                            <h3>
+                                State
+                            </h3>
+                            <input type="text" name="state">
+                        </div>
+                        <div>
+                            <h3>
+                                Zip Code
+                            </h3>
+                            <input type="text" name="zip_code">
+                        </div>
+                        <div>
+                            <label for="remote">Remote</label>
+                            <select name="remote" id="remote">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="employment">Employment Type: </label>
+                            <Select name="employment" id="employment">
+                                {% for i in employement_choice %}
+                                <option value="{{ i.0 }}" selected>{{ i.0 }}</option>
+                                {% endfor %}
+                            </Select>
+                        </div>
+                        <div>
+                            <label for="category">Category: </label>
+                            <Select name="category" id="category">
+                                {% for i in category_choices %}
+                                <option value="{{ i.0 }}">{{ i.1 }}</option>
+                                {% endfor %}
+                            </Select>
+                        </div>
+                        <div>
+                            <label for="education">Required education: </label>
+                            <Select name="education" id="education">
+                                {% for i in education_choices %}
+                                <option value="{{ i.0 }}">{{ i.1 }}</option>
+                                {% endfor %}
+                            </Select>
+                        </div>
+                        <div>
+                            <label for="experience">Required experience: </label>
+                            <Select name="experience" id="experience">
+                                {% for i in experience_choices %}
+                                <option value="{{ i.0 }}">{{ i.1 }}</option>
+                                {% endfor %}
+                            </Select>
+                        </div>
+                        <div>
+                            <h3>Hours per week</h3>
+                            <h3>
+                                <input type="number" name="lower_hour">
+                                to
+                                <input type="number" name="upper_hour">
+                                hours
+                            </h3>
+                        </div>
+                    
+                        <input type="submit" value="Submit">
+                    </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light  "
+            style="height: 50px; margin-top:20px; background-color:white">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                </ul>
+            </div>
+        </nav>
+
+    </header>
+    customer info section
+    <section>
+        <div class="container-fluid">
+
+        </div>
+    </section>
+
+
+    <section>
+        <div class="container-fluid">
+            <div class="col-md-9">
+
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html> -->
+
+
+
+
+
+
+
+{% block content-wrapper %}
+<style>
+    input[type="text"],
+    input[type="number"],
+    select
+        {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgb(197, 196, 196);
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 0;
+        
+        }
+
+    input[type="text"]:focus,
+    input[type="number"],
+    select:focus:focus
+        {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        }
+
+    label { display:block; }
+</style>
     <form action="" method="post">
         {% csrf_token %}
-    <div>
-        <h3>
+        <div class="form-row col-md-12" style="z-index: 10; border: 2px solid rgb(187, 186, 186);">
+        
+    <div class= "form-group col-md-9">
+        <label for="title">
             Job title
-        </h3>
-        <input type="text" name="title">
+        </label>
+        <input type="text" style="width: 80%;" name="title" id="title">
     </div>
-    <div>
-        <h3>
+    <div >
+        <label for="department">
             Department
-        </h3>
-        <input type="text" name="department">
+        </label>
+        <input type="text" style="width: 100%;" name="department" id="department">
     </div>
-    <div>
-        <h3>Job description</h3>
+    </div>
+    <div class="form-row col-md-12" style="z-index: 10; border: 2px solid rgb(187, 186, 186); margin-top: 20px;">
+        <label>Job description</label>
         {{ form.job_description }}
     </div>
-    <div>
-        <h3>Job requirements</h3>
+    <div class="form-row col-md-12" style="z-index: 10; border: 2px solid rgb(187, 186, 186); margin-top: 20px;">
+        <label>Job requirements</label>
         {{ form.job_requirements }}
     </div>
-    <div>
-        <h3>
+    <div class="form-row  col-md-12" style="z-index: 10; border: 2px solid rgb(187, 186, 186); margin-top: 20px;">
+    <h4 class="col-md-12">Job location</h4>
+    <div class="form-group col-md-3">
+        <label>
             Country
-        </h3>
+        </label>
         <input type="text" name="country">
     </div>
-    <div>
-        <h3>
+    <div class="form-group col-md-3">
+        <label>
             State
-        </h3>
+        </label>
         <input type="text" name="state">
     </div>
-    <div>
-        <h3>
+    <div class="form-group col-md-3">
+        <label>
             Zip Code
-        </h3>
+        </label>
         <input type="text" name="zip_code">
     </div>
-    <div>
+    <div class="form-group col-md-3">
         <label for="remote">Remote</label>
         <select name="remote" id="remote">
         <option value="0">No</option>
         <option value="1">Yes</option>
         </select>
-  </div><div>
+  </div>
+</div>
+<div class="form-row  col-md-12" style="padding-bottom:20px;z-index: 10; border: 2px solid rgb(187, 186, 186); margin-top: 20px;">
+  <div class="form-group col-md-3">
       <label for="employment">Employment Type: </label>
       <Select name="employment" id="employment">
         {% for i in employement_choice %}
         <option value="{{ i.0 }}" selected>{{ i.1 }}</option>
         {% endfor %}
         </Select>
-    </div><div>
+    </div>
+    <div class="form-group col-md-3">
         <label for="category">Category: </label>
         <Select name="category" id="category">
             {% for i in category_choices %}
-            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            <option value="{{ i.0 }}" selected>{{ i.1 }}</option>
             {% endfor %}
         </Select>
-    </div><div>
+    </div>
+    <div class="form-group col-md-3">
         <label for="education">Required education: </label>
         <Select name="education" id="education">
             {% for i in education_choices %}
-            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            <option value="{{ i.0 }}" selected>{{ i.1 }}</option>
             {% endfor %}
         </Select>
     </div>
-    <div>
+    <div class="form-group col-md-3">
         <label for="experience">Required experience: </label>
         <Select name="experience" id="experience">
             {% for i in experience_choices %}
-            <option value="{{ i.0 }}">{{ i.1 }}</option>
+            <option value="{{ i.0 }}" selected>{{ i.1 }}</option>
             {% endfor %}
         </Select>
     </div>
     <div>
-        <h3>Hours per week</h3>
-        <h3>
+        <label>Hours per week</label>
+        <span class="form-group col-md-3">
             <input type="number" name="lower_hour">
             to 
             <input type="number" name="upper_hour">
             hours
-        </h3>
+        </span>
+    </div>
     </div>
     
     <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+{% endblock %}
+
+{% block extrascript %}
+
+<!-- CK Editor 
+<script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>-->
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<!--   <script>
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('template_content');
+  });
+</script>-->
+
+<script>
+
+    /*function syncPreview() {
+     $('.preview').html( CKEDITOR.instances.template_content.getData() );
+ }*/
+
+    $(document).ready(
+        function () {
+            CKEDITOR.replace('id_job_description', {
+
+                filebrowserUploadUrl: '/ckeditor/upload/',
+                filebrowserBrowseUrl: '/ckeditor/browse/?type=image',
+                allowedContent: true,
+                fullPage: true,
+                autoGrow_onStartup: true
+                /*on:{
+                change: syncPreview,
+    
+            // Synchronize the preview when the new data is set.
+                contentDom: syncPreview
+                }*/
+
+
+            });
+
+
+
+        }
+    );
+</script>
+
+{% endblock %}

@@ -19,6 +19,7 @@ def job_list_view(request):
 def job_add_view(request):
     pk = None
     if request.method == 'POST':
+        print(request.POST)
         title = request.POST.get('title', None)
         department = request.POST.get('department', None)
         # description = request.POST['description']
@@ -26,9 +27,8 @@ def job_add_view(request):
         country = request.POST.get('country', None)
         state = request.POST.get('state', None)
         zip_code = request.POST.get('zip_code', None)
-        is_remote = request.POST.get('is_remote', None)
-        employement = request.POST.get('employement')
-        print('employment =', employement)
+        is_remote = request.POST.get('remote', None)
+        employment = request.POST.get('employment')
         category = request.POST.get('category', None)
         education = request.POST.get('education', None)
         experience = request.POST.get('experience', None)
@@ -39,15 +39,14 @@ def job_add_view(request):
         if pk:
             job = JobPosting.objects.get(pk=pk, user=request.user)
             job.update(job_title=title, job_department=department, job_country=country, job_state=state, job_zip_code=zip_code,
-                       is_remote=is_remote, job_employment_type=int(employement), job_category=int(category),
+                       is_remote=is_remote, job_employment_type=int(employment), job_category=int(category),
                        job_required_education=int(education), job_required_experience=int(experience),
                        job_lower_hours_per_week=int(lower_hour), job_upper_hours_per_week=int(upper_hour),
                        job_publish_date=publish_date, job_close_date=close_date)
         else:
             job = JobPosting.objects.create(user=request.user, job_title=title, job_department=department,
                                             job_country=country, job_state=state, job_zip_code=zip_code,
-                                            is_remote=is_remote, job_employment_type=int(
-                                                employement),
+                                            is_remote=bool(int(is_remote)), job_employment_type=int(employment),
                                             job_category=int(category), job_required_education=int(education),
                                             job_required_experience=int(experience), job_lower_hours_per_week=int(lower_hour),
                                             job_upper_hours_per_week=int(upper_hour), job_publish_date=publish_date,

@@ -25,7 +25,7 @@ SECRET_KEY = 'b8fuslyrn$q%g!5nfh)2%*5olyr)4eqf6dgiaat2i)jmel8xl_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,11 +43,11 @@ INSTALLED_APPS = [
 
     'django.contrib.sites',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.linkedin_oauth2',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.linkedin_oauth2',
     'ckeditor',
     'ckeditor_uploader'
 ]
@@ -87,12 +87,12 @@ WSGI_APPLICATION = 'hiree.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 
@@ -151,9 +151,9 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SITE_ID = 4
+SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 
 MEDIA_ROOT = BASE_DIR/ 'media'
 
@@ -175,4 +175,4 @@ CKEDITOR_CONFIGS = {
 }
 
 
-from .local_settings import *
+# from .local_settings import *

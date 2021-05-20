@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>{{ request.user }}</h1>
-    {% for job in jobs %}
-    <div>
-        <h3>
-            Job title: {{ job.job_title }}
-        </h3>
-        <h3>
-            Job Department: {{ job.job_department }}
-        </h3>
-        <h3>
-            Last Updated: {{ job.modified_date }}
-        </h3>
+{% extends "index.html" %}
+{% load static %}
+{% block content-wrapper %}
+
+<div>
+{% for job in jobs %}
+<div class="form-row  col-md-12" style="padding-top:10px;z-index: 10; border: 2px solid rgb(187, 186, 186); margin-top: 20px;">
+<div class="form-group">
+    <div class="row" style="padding-left: 0px;">
+    <h5 class="col-md-10">
+        {{job.job_title}}
+    </h5>
+    <a href="#" >Edit</a>
     </div>
-    {% endfor %}
-</body>
-</html>
+    <h6>{{ job.job_department }}</h6>
+    <div class="row" style="padding-left: 16px;">
+    <p>Last updated: </p>
+    
+    <h6 style="padding-top: 2px;">&nbsp{{ job.modified_date }}</h6>
+    </div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
